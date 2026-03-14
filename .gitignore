@@ -1,9 +1,9 @@
 # Secrets
-public_html/config.php
+config.php
 
 # Server logs
-public_html/*/error_log
-public_html/*/*/error_log
+*/error_log
+*/*/error_log
 
 # cPanel / server files
 etc/
@@ -37,13 +37,13 @@ public_ftp/
 *.zip
 
 # Namecheap parking page and assets
-public_html/parking-page.shtml
-public_html/nc_assets/
-public_html/.well-known/
+parking-page.shtml
+nc_assets/
+.well-known/
 
 # macOS resource forks
 __MACOSX/
-public_html/__MACOSX/
+__MACOSX/
 
 # OS files
 .DS_Store
