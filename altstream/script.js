@@ -303,16 +303,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const result = await response.json();
 
-      if (result.success === true && result.redirect) {
-        overlayMsg.textContent = "Success! Redirecting you now...";
+      // Extract autologin URL from various possible response fields
+      const autologinUrl =
+        result.autologin ||
+        result.redirect ||
+        (result.data &&
+          (result.data.autologin ||
+            result.data.redirect ||
+            result.data.auto_login_url ||
+            result.data.url)) ||
+        null;
+
+      if (autologinUrl) {
+        overlayMsg.textContent =
+          "Success! Redirecting you to the trading platform...";
         setTimeout(() => {
-          window.location.href = result.redirect;
+          window.location.href = autologinUrl;
         }, 1500);
-      } else if (result.data && result.data.redirect) {
-        overlayMsg.textContent = "Success! Redirecting you now...";
-        setTimeout(() => {
-          window.location.href = result.data.redirect;
-        }, 1500);
+      } else if (result.success === true || (result.data && !result.errors)) {
+        // Registration successful but no autologin URL returned
+        hideOverlay();
+        const alertEl = form.querySelector(".alert-danger");
+        if (alertEl) {
+          alertEl.textContent =
+            "Registration successful but auto-login unavailable. Please contact support.";
+          alertEl.classList.remove("hidden");
+        }
       } else if (result.errors) {
         hideOverlay();
         const errorMessages = [];

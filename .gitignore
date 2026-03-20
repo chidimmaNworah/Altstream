@@ -1,5 +1,5 @@
 # Secrets
-/config.php
+config.php
 
 # Server logs
 */error_log
